@@ -1,139 +1,121 @@
 const td = document.querySelectorAll(".td");
-const num = document.querySelector(".num")
-const num2 = document.querySelector(".num2")
+const timer = document.querySelector(".timer")
+const wrong = document.querySelector(".wrong")
 const btn = document.querySelector(".btn");
-let s =[];
-let o = [];
-function ran(e){
-    
-    e.disabled = true;
-    for(let i=0; i<5; i++){
-        const t = td[Math.floor(Math.random() * td.length)];
-       t.style.backgroundColor = "red"}
-
-       td.forEach((e,b) => {
-        if(e.style.backgroundColor==="red"){
-            s.push(e)
-            o.push(b)
-            end(s)
-            gr(s)
-        }
-       });
-      
-       
-       let c =10
-      const u = setInterval(()=> {
-        if(c<=1) {
-            clearInterval(u)
-            
-        }
-        num.innerHTML = c
-        c -=1
+const level = document.querySelectorAll(".level");
+const d_container = document.querySelector(".d-container");
+let tempLevel=6;
+let checkLevel=6;
+let timeLevel = 6000;
+level.forEach( lvl => {
+    lvl.addEventListener("click", e =>{
         
-    },1000) 
-    
-}
-function end(s){
-    
-    num2.innerHTML = `you have 3`
-setInterval(()=>{   
-    td.forEach((e) => {
-        if(e.style.backgroundColor==="red"){
-            e.style.backgroundColor="white"
+        if(e.target.classList.contains("easy")){
+            e.target.classList.add("selected");
+            level[1].classList.remove("selected");
+            level[2].classList.remove("selected");
+            tempLevel = 6
+            checkLevel = 6
+            timeLevel = 6000
         }
-       });
-       
-    },10000)
-}
-/* function m(a,b){
-    
-    let count = 3
-    num.innerHTML = `${count}`
-    
-
-    b.forEach( e => {
-        
-        if(e.dataset.id===a.dataset.id){
-            console.log("t");
-            e.style.backgroundColor = "green"
-            
+        else if(e.target.classList.contains("medium")){
+            e.target.classList.add("selected");
+            level[0].classList.remove("selected");
+            level[2].classList.remove("selected");
+            tempLevel = 4
+            checkLevel = 3
+            timeLevel = 3000
+        }
+        else if(e.target.classList.contains("hard")){
+            e.target.classList.add("selected");
+            level[0].classList.remove("selected");
+            level[1].classList.remove("selected");
+            tempLevel = 2
+            checkLevel = 1
+            timeLevel = 1000
         }
         
-        if(e.dataset.id!==a.dataset.id){
-            
-            num.innerHTML = `${count-1}`
-            console.log("f");
-        }
     })
-} */
-function gr(a){
-    let p = 3;
-    console.log(a);
-setInterval(()=>{
-    let w = 0;
-    let er =0;
-    num2.innerHTML = `you have ${p}`
-        
-        td.forEach((e)=>{
-            e.addEventListener("click", r =>{
-                //m(el,a)
-               if(a.includes(e)){
-                e.style.backgroundColor = "green"
-                er++;
-               }
-               else if(!(a.includes(e))){
-                p--
-                num2.innerHTML = `you have ${p}`
-                w++
-               }
-               if(er==a.length){
-                 alert("you win!")
-                 location.reload()
-               }
-               if(p==0){
-                btn.disabled = false;
-                alert("you loose!")
-                location.reload();
-               }
-               console.log(w);
-                /* if(r.target==a){
-                        console.log(r.target);
-                        el.style.backgroundColor = "green"
-                }
-                else if(r.target!==a){
-                    console.log("false");
-                } */
-                /* for(let i = 0; i < a.length ; i++){
-                    console.log(el.dataset.id);
-                    console.log(a[i].dataset.id);
-                    
-                     if(el.dataset.id===a[i].dataset.id){
-                        console.log(`${el.dataset.id} , ${a[i].dataset.id} true`);
-                        a[i].style.backgroundColor = "green"
-                        
-                    }
-                    
-                    else if(el.dataset.id!==a[i].dataset.id){
-                        w++;
-                        //num.innerHTML = `${count-1}`
-                        console.log(`${el.dataset.id} , ${a[i].dataset.id} false`);
-                        console.log(w);
-                        if(w==3){
-                            console.log("stop");
-                        }
-                    } 
-                   
+})
+let temp=[];
+btn.addEventListener("click", b =>{
+    btn.disabled = true;
+    level.forEach(lvl => {
+        lvl.disabled = true
+        if(tempLevel==6){
+            level[0].classList.add("selected")
+        }
+    });
+    for(let i=0; i<6; i++)
+        td[Math.floor(Math.random() * td.length)].style.backgroundColor = "red"
+       
+        td.forEach( td => {
+         if(td.style.backgroundColor === "red"){
+            temp.push(td)
+       }})  
+    let c = checkLevel
+    let op =1
+    const u = setInterval(()=> {
+        if(c==0) {
+            timer.style.opacity = 0
+            clearInterval(u)          
+        }
+        timer.innerHTML = c
+        c--       
+    },900) 
+    setInterval(()=>{   
+        td.forEach((e) => {
+            if(e.style.backgroundColor==="red"){
+                e.style.backgroundColor="rgba(208, 252, 237, 0.832)"
+            }
+            e.classList.add("hover")
+            e.addEventListener("click",e => {
                 
-                } */
-            
+                check(e.target,temp,tempLevel)
+                
             })
-            
-        })
-        },10000)                
+           });
+           
+        },timeLevel)
+             wrong.innerHTML = `${tempLevel} chances`
+})
+
+
+function check(e,temp,tempLevel) {
+    let c =0
+    
+    if(temp.includes(e)) {
+        e.style.backgroundColor = "rgb(31, 163, 83)"
+        e.style.border = "none"
     }
+    if(!(temp.includes(e))) {
+        e.style.border = "none"
+        e.style.backgroundColor = "rgb(202, 16, 62)"
+    }
+    
+    td.forEach( td => {
+        if(td.style.backgroundColor === "rgb(31, 163, 83)") c++
+        if(td.style.backgroundColor === "rgb(202, 16, 62)") tempLevel--
+        
+    })   
 
-
+        wrong.innerHTML = `${tempLevel} chances`
 
     
+    if(c>=temp.length) {
+        alert("you win!!!")
+        location.reload()
+    }
+    if(tempLevel==0){
+        alert("you lose!")
+        location.reload()
+    }
+}
 
+function restart(){
+    location.reload()
+}
 
+if(window.matchMedia("(max-width: 400px)").matches){
+    d_container.style.left = "0 !important"
+}
