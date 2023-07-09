@@ -129,5 +129,5 @@ function restart(){
 }
 
 if(window.matchMedia("(max-width: 400px)").matches){
-    d_container.style.left = "0 !important"
+ 
 }
