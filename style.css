@@ -48,11 +48,12 @@ body{
         flex-direction: column;    
     }
     .alert{
+        top: 6% !important;
         width: 250px !important;
         height: 150px !important;
-        left: 20%;
         font-size: 30px !important;
         margin-left: 0 !important;
+        left: 20%;
         padding-top: 3.2rem !important;
     }
     .timer{
@@ -125,7 +126,7 @@ body{
     font-size: 45px;
     padding-top: 3.2rem;
     text-align: center;
-    border-radius: 50px;
+    border-radius: 30px;
     width: 350px;
     height: 180px;
     position: absolute;

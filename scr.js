@@ -113,14 +113,14 @@ function check(e,temp,tempLevel) {
         fade.style.display = "block"
         alert.style.color="rgb(31, 163, 83)"
         alert.textContent = "You Win!"
-        setInterval( ()=> location.reload(),1200)
+        setInterval( ()=> location.reload(),1500)
     }
     if(tempLevel==0){
         alert.style.display = "block"
         fade.style.display = "block"
         alert.style.color="rgb(255, 144, 187)"
         alert.textContent = "You Lose!"
-        setInterval( ()=> location.reload(),1200)
+        setInterval( ()=> location.reload(),1500)
     }
 }
 
@@ -128,6 +128,3 @@ function restart(){
     location.reload()
 }
 
-if(window.matchMedia("(max-width: 400px)").matches){
- 
-}
