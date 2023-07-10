@@ -6,12 +6,13 @@ const level = document.querySelectorAll(".level");
 const d_container = document.querySelector(".d-container");
 const alert = document.querySelector(".alert");
 const fade = document.querySelector(".fade");
+const alert_text = document.querySelector(".alert-text");
+const progress = document.querySelector(".progress");
 let tempLevel=6;
 let checkLevel=6;
 let timeLevel = 6000;
 level.forEach( lvl => {
     lvl.addEventListener("click", e =>{
-        
         if(e.target.classList.contains("easy")){
             e.target.classList.add("selected");
             level[1].classList.remove("selected");
@@ -75,9 +76,8 @@ btn.addEventListener("click", b =>{
                 e.style.backgroundColor="rgb(255, 250, 215)"
             }
             e.classList.add("hover")
-            e.addEventListener("click",e => {
-                
-                check(e.target,temp,tempLevel)
+            e.addEventListener("click",a => {
+                check(a.target,temp,tempLevel)
                 
             })
            });
@@ -100,31 +100,50 @@ function check(e,temp,tempLevel) {
     }
     
     td.forEach( td => {
+        td.classList.remove("hover")
         if(td.style.backgroundColor === "rgb(31, 163, 83)") c++
         if(td.style.backgroundColor === "rgb(255, 144, 187)") tempLevel--
         
     })   
 
         wrong.innerHTML = `${tempLevel} chances`
-
-    
+    let i=0
+    let width = 0
     if(c>=temp.length) {
+        progressBar()
         alert.style.display = "block"
         fade.style.display = "block"
-        alert.style.color="rgb(31, 163, 83)"
-        alert.textContent = "You Win!"
-        setInterval( ()=> location.reload(),1500)
+        alert_text.style.color="rgb(31, 163, 83)"
+        alert_text.textContent = "You Win!"
+        setInterval( ()=> location.reload(),3250)
     }
     if(tempLevel==0){
-        alert.style.display = "block"
+        progressBar()
+        alert.style.display = "inline"
         fade.style.display = "block"
-        alert.style.color="rgb(255, 144, 187)"
-        alert.textContent = "You Lose!"
-        setInterval( ()=> location.reload(),1500)
+        alert_text.style.color="rgb(255, 144, 187)"
+        alert_text.textContent = "You Lose!"
+        setInterval( ()=> location.reload(),3250)
     }
 }
 
 function restart(){
     location.reload()
 }
-
+function progressBar(){
+    let i = 0
+    let width = 0
+    if (i == 0) {
+        i = 1;
+        let id = setInterval(clearInter, 20);
+        function clearInter() {
+          if (width >= 100) {
+            clearInterval(id);
+            i = 0;
+          } else {
+            width++;
+            progress.style.width = width + "%";
+          }
+        }
+      }
+}
